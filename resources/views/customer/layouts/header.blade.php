@@ -49,6 +49,31 @@
             font-weight: 500;
             margin-bottom: 32px;
         }
+
+        .overlay {
+            position: absolute;
+            bottom: 0;
+            background: rgb(0, 0, 0);
+            background: rgba(0, 0, 0, 0.5);
+            /* Black see-through */
+            color: #140202;
+            width: 100%;
+            height: 100%;
+            opacity: 1;
+            text-align: center;
+        }
+
+
+        .overlay span {
+            color: #fff;
+            font-size: 30px;
+            font-weight: 500;
+            list-style: none;
+            line-height: 36px;
+            opacity: 0.5;
+            margin-top: 40%;
+            display: inline-block;
+        }
     </style>
 </head>
 

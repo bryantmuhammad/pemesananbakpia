@@ -11,7 +11,6 @@
                                 <li>Bakpia 716 Annur</li>
                                 <li>+62 812 8234 923</li>
                                 <li>Jl. Purwodiningratan NG1/ no 716 DIY Yogyakarta</li>
-
                             </ul>
                         </div>
                     </div>
@@ -20,7 +19,6 @@
                             <h4>Syarat Dan Ketentuan</h4>
                             <ul>
                                 <li><a href="/syarat.pdf" style="color:#fff;">Syarat Dan Ketentuan</a></li>
-
                             </ul>
                         </div>
                     </div>
