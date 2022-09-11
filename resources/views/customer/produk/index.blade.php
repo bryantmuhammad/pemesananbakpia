@@ -29,14 +29,6 @@
 
                                     <img src="{{ asset('storage/' . $produk->foto) }}" alt=""
                                         style="width:255px;height:251px;">
-                                        {{-- @if ()
-                                            
-                                        @else
-                                            
-                                        @endif
-                                    <div class="overlay">
-                                        <span>Stok Habis</span>
-                                    </div> --}}
                                 </a>
                             </figure>
                             <div class="product-text">

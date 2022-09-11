@@ -7,35 +7,13 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12">
-                            <h1>2019</h1>
-                            <h2>Lookbook.</h2>
-                            <a href="#" class="primary-btn">See More</a>
+                            <h1>2022</h1>
+                            <h2>Bakpia.</h2>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="single-slider-item set-bg" data-setbg="/customer/img/slider-2.jpg">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <h1>2019</h1>
-                            <h2>Lookbook.</h2>
-                            <a href="#" class="primary-btn">See More</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="single-slider-item set-bg" data-setbg="/customer/img/slider-3.jpg">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <h1>2019</h1>
-                            <h2>Lookbook.</h2>
-                            <a href="#" class="primary-btn">See More</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
         </div>
     </section>
     <!-- Hero Slider End -->
@@ -89,24 +67,27 @@
                 </div>
             </div>
             <div class="row" id="product-list">
-                <div class="row" id="product-list">
-                    @foreach ($produks as $produk)
-                        <div
-                            class="col-lg-3 col-sm-6 mix all {{ preg_replace('/\s+/', '_', $produk->kategori->nama_kategori) }}">
-                            <div class="single-product-item">
-                                <figure>
-                                    <a href="{{ route('bakpia.show', $produk->id_produk) }}"><img
-                                            src="{{ asset('storage/' . $produk->foto) }}" alt=""
-                                            style="width:255px;height:251px;"></a>
-                                </figure>
-                                <div class="product-text">
-                                    <h6>{{ $produk->nama_produk }}</h6>
-                                    <p>{{ currency_IDR($produk->harga) }}</p>
-                                </div>
+                @foreach ($produks as $produk)
+                    <div
+                        class="col-lg-3 col-sm-6 mix all {{ preg_replace('/\s+/', '_', $produk->kategori->nama_kategori) }}">
+                        <div class="single-product-item">
+                            <figure>
+                                <a href="{{ route('bakpia.show', $produk->id_produk) }}">
+
+                                    <img src="{{ asset('storage/' . $produk->foto) }}" alt=""
+                                        style="width:255px;height:251px;">
+                                </a>
+                            </figure>
+                            <div class="product-text">
+                                <h6>{{ $produk->nama_produk }}</h6>
+                                <p>{{ currency_IDR($produk->harga) }}</p>
                             </div>
                         </div>
-                    @endforeach
-                </div>
+                    </div>
+                @endforeach
+                {{-- <div class="col-lg-12">
+                    {{ $produks->links() }}
+                </div> --}}
             </div>
         </div>
     </section>

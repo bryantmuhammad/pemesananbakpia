@@ -18,7 +18,6 @@ class CreateDetailPemesanansTable extends Migration
             $table->string('id_pemesanan', 15);
             $table->foreignId('id_produk')->references('id_produk')->on('produks')->onDelete('cascade');
             $table->integer('jumlah');
-            $table->text('catatan');
             $table->timestamps();
         });
 

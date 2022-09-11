@@ -16,8 +16,8 @@ class CreatePemesanansTable extends Migration
         Schema::create('pemesanans', function (Blueprint $table) {
             $table->string('id_pemesanan', 15)->primary();
             $table->foreignId('id_user')->references('id_user')->on('users')->onDelete('cascade');
-            $table->decimal('total_harga');
-            $table->decimal('ongkir');
+            $table->double('total_harga');
+            $table->double('ongkir');
             $table->string('ekspedisi', 30);
             $table->string('estimasi', 15);
             $table->integer('status');

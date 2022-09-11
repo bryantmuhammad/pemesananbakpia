@@ -193,17 +193,11 @@ const rupiah = (number) => {
 
 $(function () {
     if ($('input[name="tanggal"]').length) {
-        $('input[name="tanggal"]').daterangepicker(
-            {
-                singleDatePicker: true,
-                startDate: moment().add(2, "days"),
-                minDate: moment().add(2, "days"),
-            },
-            function (start, end, label) {
-                var years = moment().diff(start, "years");
-                alert("You are " + years + " years old!");
-            }
-        );
+        $('input[name="tanggal"]').daterangepicker({
+            singleDatePicker: true,
+            startDate: moment().add(2, "days"),
+            minDate: moment().add(2, "days"),
+        });
     }
 
     if ($("#provinsi").length) {
@@ -344,7 +338,6 @@ $(function () {
             },
             statusCode: {
                 422: function (data) {
-                    // console.log(data.responseJSON.errors);
                     let ul = document.createElement("ul");
 
                     $.each(data.responseJSON.errors, function (key, value) {
@@ -382,24 +375,11 @@ $(function () {
 
 function midPay(token, form) {
     window.snap.pay(token, {
-        onSuccess: function (result) {
-            /* You may add your own implementation here */
-            alert("payment success!");
-            console.log(result);
-        },
         onPending: function (result) {
             /* You may add your own implementation here */
             // Callback to insert data pemesanan
             form.append("payment", JSON.stringify(result));
             insertTransaksi(form);
-        },
-        onError: function (result) {
-            /* You may add your own implementation here */
-            fd.append("payment", JSON.stringify(result));
-        },
-        onClose: function () {
-            /* You may add your own implementation here */
-            alert("you closed the popup without finishing the payment");
         },
     });
 }
