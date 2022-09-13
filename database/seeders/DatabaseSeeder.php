@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Kategori;
+use App\Models\Produk;
 use App\Models\User;
 
 class DatabaseSeeder extends Seeder
@@ -15,7 +16,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
         User::create([
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
@@ -24,16 +24,21 @@ class DatabaseSeeder extends Seeder
             'role' => 1
         ]);
 
-        Kategori::create([
-            'nama_kategori' => 'Bakpia isi 10'
-        ]);
+        $this->makeCategory();
+    }
 
-        Kategori::create([
-            'nama_kategori' => 'Bakpia isi 20'
-        ]);
+    public function makeCategory()
+    {
+        $kategoris = [
+            'Bakpia isi 10',
+            'Bakpia isi 20',
+            'Bakpia isi 30'
+        ];
 
-        Kategori::create([
-            'nama_kategori' => 'Bakpia isi 30'
-        ]);
+        foreach ($kategoris as $kategori) {
+            Kategori::factory()->has(Produk::factory()->count(2))->create([
+                'nama_kategori' => $kategori
+            ]);
+        }
     }
 }

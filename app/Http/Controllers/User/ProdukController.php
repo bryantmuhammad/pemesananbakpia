@@ -48,7 +48,6 @@ class ProdukController extends Controller
 
     public function home()
     {
-
         return view('customer.index', [
             'kategoris' => Kategori::all(),
             'produks' => Produk::with('kategori')->latest()->take(8)->get()

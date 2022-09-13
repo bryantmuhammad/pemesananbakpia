@@ -27,6 +27,7 @@ use App\Http\Controllers\Admin\LaporanController;
 |
 */
 
+
 Route::get('/', [CustomerProduk::class, 'home']);
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index')->middleware('auth');
 // ===========================================================================================

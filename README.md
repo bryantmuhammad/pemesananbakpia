@@ -50,3 +50,7 @@ php artisan generate:key
 php artisan migrate:fresh --seed
 php artisan storage:link
 php artisan serve
+```
+
+## Setting Migration
+- Go to vendor/fakerphp/faker/src/faker/provider/image.php then change BASE_URL from 'https://via.placeholder.com' to 'https://placehold.jp'
