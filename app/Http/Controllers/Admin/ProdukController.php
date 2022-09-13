@@ -7,8 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Produk;
 use App\Models\Kategori;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Contracts\Cache\Store;
-use phpDocumentor\Reflection\DocBlock\Tags\Var_;
+use Illuminate\Support\Facades\Gate;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class ProdukController extends Controller
@@ -20,6 +19,8 @@ class ProdukController extends Controller
      */
     public function index()
     {
+        Gate::authorize('crud');
+
         if (session()->has('success')) {
             Alert::toast(session('success'), 'success');
         }
@@ -74,17 +75,6 @@ class ProdukController extends Controller
     public function show(Produk $produk)
     {
         return response()->json($produk);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**

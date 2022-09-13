@@ -23,12 +23,15 @@
                     <li class="{{ Request::is('admin/users*') ? 'active' : '' }}"><a class="nav-link"
                             href="{{ route('users.index') }}">Admin</a>
                     </li>
-                    <li class="{{ Request::is('admin/produk*') ? 'active' : '' }}"><a class="nav-link"
-                            href="{{ route('produk.index') }}">Produk</a>
-                    </li>
-                    <li class="{{ Request::is('admin/kategori*') ? 'active' : '' }}"><a class="nav-link"
-                            href="{{ route('kategori.index') }}">Kategori</a>
-                    </li>
+                    @can('crud')
+                        <li class="{{ Request::is('admin/produk*') ? 'active' : '' }}"><a class="nav-link"
+                                href="{{ route('produk.index') }}">Produk</a>
+                        </li>
+                        <li class="{{ Request::is('admin/kategori*') ? 'active' : '' }}"><a class="nav-link"
+                                href="{{ route('kategori.index') }}">Kategori</a>
+                        </li>
+                    @endcan
+
 
                 </ul>
             </li>

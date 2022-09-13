@@ -128,41 +128,6 @@ class PemesananController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\pemesanan  $pemesanan
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(pemesanan $pemesanan)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\pemesanan  $pemesanan
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, pemesanan $pemesanan)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\pemesanan  $pemesanan
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(pemesanan $pemesanan)
-    {
-        //
-    }
-
-
 
     public function checkout()
     {

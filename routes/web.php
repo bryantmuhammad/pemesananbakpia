@@ -42,8 +42,8 @@ Route::get('/customer/logout', [LoginController::class, 'customerlogout']);
 Route::resource('/customer/user', CustomerUser::class)->except(['edit']);
 Route::resource('/customer/bakpia', CustomerProduk::class)->except(['edit', 'update', 'destroy', 'store', 'create']);
 Route::resource('/admin/users', AdminUser::class)->middleware('auth')->except('edit');
-Route::resource('/admin/produk', AdminProduk::class)->middleware('auth')->except('edit');
-Route::resource('/admin/kategori', KategoriController::class)->middleware('auth')->except('edit');
+Route::resource('/admin/produk', AdminProduk::class)->middleware(['can:crud', 'auth'])->except('edit');
+Route::resource('/admin/kategori', KategoriController::class)->middleware(['can:crud', 'auth'])->except('edit');
 
 
 Route::middleware(['authcustomer'])->prefix('keranjang')->group(function () {
