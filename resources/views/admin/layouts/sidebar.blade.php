@@ -36,24 +36,27 @@
                 </ul>
             </li>
 
-            <li class="nav-item dropdown {{ Request::is('admin/pemesanan*') ? 'active' : '' }}">
-                <a href="#" class="nav-link has-dropdown"><i class="fas fa-handshake"></i>
-                    <span>Pemesanan</span></a>
-                <ul class="dropdown-menu">
-                    <li class="{{ Request::is('admin/pemesanan/belumbayar') ? 'active' : '' }}"><a class="nav-link"
-                            href="{{ route('pemesanan.belumbayar') }}">Belum Membayar</a>
-                    </li>
-                    <li class="{{ Request::is('admin/pemesanan/sudahbayar') ? 'active' : '' }}"><a class="nav-link"
-                            href="{{ route('pemesanan.sudahbayar') }}">Sudah Membayar</a>
-                    </li>
-                    <li class="{{ Request::is('admin/pemesanan/pembuatan') ? 'active' : '' }}"><a class="nav-link"
-                            href="{{ route('pemesanan.pembuatan') }}">Pembuatan</a>
-                    </li>
-                    <li class="{{ Request::is('admin/pemesanan/dikirim') ? 'active' : '' }}"><a class="nav-link"
-                            href="{{ route('pemesanan.dikirim') }}">Dikirim</a>
-                    </li>
-                </ul>
-            </li>
+            @can('transaksi')
+                <li class="nav-item dropdown {{ Request::is('admin/pemesanan*') ? 'active' : '' }}">
+                    <a href="#" class="nav-link has-dropdown"><i class="fas fa-handshake"></i>
+                        <span>Pemesanan</span></a>
+                    <ul class="dropdown-menu">
+                        <li class="{{ Request::is('admin/pemesanan/belumbayar') ? 'active' : '' }}"><a class="nav-link"
+                                href="{{ route('pemesanan.belumbayar') }}">Belum Membayar</a>
+                        </li>
+                        <li class="{{ Request::is('admin/pemesanan/sudahbayar') ? 'active' : '' }}"><a class="nav-link"
+                                href="{{ route('pemesanan.sudahbayar') }}">Sudah Membayar</a>
+                        </li>
+                        <li class="{{ Request::is('admin/pemesanan/pembuatan') ? 'active' : '' }}"><a class="nav-link"
+                                href="{{ route('pemesanan.pembuatan') }}">Pembuatan</a>
+                        </li>
+                        <li class="{{ Request::is('admin/pemesanan/dikirim') ? 'active' : '' }}"><a class="nav-link"
+                                href="{{ route('pemesanan.dikirim') }}">Dikirim</a>
+                        </li>
+                    </ul>
+                </li>
+            @endcan
+
             <li class="nav-item dropdown {{ Request::is('admin/laporan*') ? 'active' : '' }}">
                 <a href="#" class="nav-link has-dropdown"><i class="fas fa-file"></i>
                     <span>Laporan</span></a>

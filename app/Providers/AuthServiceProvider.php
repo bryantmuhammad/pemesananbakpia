@@ -28,7 +28,9 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
         Gate::define('crud', function (User $user) {
-
+            return $user->role !== 2;
+        });
+        Gate::define('transaksi', function (User $user) {
             return $user->role !== 2;
         });
     }

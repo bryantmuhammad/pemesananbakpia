@@ -19,8 +19,6 @@ class ProdukController extends Controller
      */
     public function index()
     {
-        Gate::authorize('crud');
-
         if (session()->has('success')) {
             Alert::toast(session('success'), 'success');
         }

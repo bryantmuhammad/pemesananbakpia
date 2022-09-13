@@ -69,7 +69,7 @@ Route::prefix('ongkir')->group(function () {
     Route::post('/ongkir', [OngkirController::class, 'ongkir']);
 });
 
-Route::middleware(['auth'])->prefix('admin/pemesanan')->group(function () {
+Route::middleware(['can:transaksi', 'auth'])->prefix('admin/pemesanan')->group(function () {
     Route::get('/pembuatan', [AdminPemesanan::class, 'pembuatan'])->name('pemesanan.pembuatan');
     Route::get('/sudahbayar', [AdminPemesanan::class, 'sudah_bayar'])->name('pemesanan.sudahbayar');
     Route::get('/belumbayar', [AdminPemesanan::class, 'belum_bayar'])->name('pemesanan.belumbayar');
