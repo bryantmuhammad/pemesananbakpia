@@ -18,6 +18,11 @@ class Pemesanan extends Model
     protected $dates        = ['tanggal_pemesanan', 'tanggal_diperlukan'];
     protected $with         = ['user'];
 
+    public function scopeNotification($q)
+    {
+        return $q->where('notif', 0)->where('id_user', auth()->user()->id_user)->select('id_pemesanan', 'notif', 'status');
+    }
+
 
     public function user()
     {

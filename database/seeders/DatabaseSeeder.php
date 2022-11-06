@@ -6,6 +6,8 @@ use Illuminate\Database\Seeder;
 use App\Models\Kategori;
 use App\Models\Produk;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,7 +23,14 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'role' => 1
+            'role'      => 1
+        ]);
+        User::create([
+            'name'              => 'Customer',
+            'email'             => 'customer@gmail.com',
+            'email_verified_at' => now(),
+            'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'role'              => 3
         ]);
 
         $this->makeCategory();
@@ -36,7 +45,7 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($kategoris as $kategori) {
-            Kategori::factory()->has(Produk::factory()->count(2))->create([
+            Kategori::factory()->has(Produk::factory()->count(5))->create([
                 'nama_kategori' => $kategori
             ]);
         }

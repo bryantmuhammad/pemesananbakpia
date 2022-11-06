@@ -119,6 +119,71 @@ $(function () {
     });
 
     $("#mytable").DataTable();
+
+    $(".alamatcustomer").click(async function (e) {
+        const id_pemesanan = $(this).data("id");
+        const id_return_produk = $(this).data("id_return");
+
+        $.ajax({
+            method: "GET",
+            url: `/admin/return/alamatcustomer/${id_pemesanan}`,
+            dataType: "JSON",
+            success: (res) => {
+                const alamat = res.data;
+                $("#id_pemesanan").val(alamat.id_pemesanan);
+                $("#id_return_produk").val(id_return_produk);
+                $("#nama_penerima").val(alamat.nama_penerima);
+                $("#telepon").val(alamat.telepon);
+                $("#provinsi").val(alamat.provinsi);
+                $("#kabupaten").val(alamat.kabupaten);
+                $("#kodepos").val(alamat.kodepos);
+                $("#kecamatan").val(alamat.kecamatan);
+                $("#alamat").val(alamat.alamat);
+            },
+        });
+    });
+
+    $(".terimareturn").click(function (e) {
+        const id_return_produk = $(this).data("id");
+
+        const request = new Request(
+            `/admin/return/updatereturn/${id_return_produk}`,
+            {
+                method: "PUT",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": csrftoken,
+                },
+                body: JSON.stringify({
+                    status: 1,
+                }),
+            }
+        );
+
+        fetch(request)
+            .then((Response) => Response.json())
+            .then((Response) => {
+                if (Response.status == 200) {
+                    Swal.fire({
+                        icon: "success",
+                        title: Response.message,
+                        showConfirmButton: false,
+                        timer: 1000,
+                    }).then(function (e) {
+                        location.reload();
+                    });
+                }
+            });
+    });
+
+    $(".hapusreturn").click(function (e) {
+        const idReturn = $(this).data("id");
+        $("#formhapusreturn").attr(
+            "action",
+            `/admin/return/hapusreturn/${idReturn}`
+        );
+    });
 });
 
 function editAdmin(idadmin) {

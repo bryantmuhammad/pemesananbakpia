@@ -55,6 +55,22 @@
                         </li>
                     </ul>
                 </li>
+
+                <li class="nav-item dropdown {{ Request::is('admin/return*') ? 'active' : '' }}">
+                    <a href="#" class="nav-link has-dropdown"><i class="fas fa-handshake"></i>
+                        <span>Return</span></a>
+                    <ul class="dropdown-menu">
+                        <li class="{{ Request::is('admin/return/returnmasuk') ? 'active' : '' }}"><a class="nav-link"
+                                href="{{ route('return.masuk') }}">Return Masuk</a>
+                        </li>
+                        <li class="{{ Request::is('admin/return/returnkirim') ? 'active' : '' }}"><a class="nav-link"
+                                href="{{ route('return.kirim') }}">Kirim Return</a>
+                        </li>
+                        <li class="{{ Request::is('admin/return/selesai') ? 'active' : '' }}"><a class="nav-link"
+                                href="{{ route('return.selesai') }}">Return Selesai</a>
+                        </li>
+                    </ul>
+                </li>
             @endcan
 
             <li class="nav-item dropdown {{ Request::is('admin/laporan*') ? 'active' : '' }}">

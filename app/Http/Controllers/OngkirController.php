@@ -35,12 +35,12 @@ class OngkirController extends Controller
 
         $pengiriman = [
             [
-                'code' => $daftarProvinsi[0]['code'],
+                'code'  => $daftarProvinsi[0]['code'],
                 'costs' => $daftarProvinsi[0]['costs']
             ]
         ];
 
-        return response()->json($pengiriman);
+        return response()->json($pengiriman, 200);
     }
 
     public function pay()

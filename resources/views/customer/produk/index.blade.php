@@ -26,15 +26,17 @@
                         <div class="single-product-item">
                             <figure>
                                 <a href="{{ route('bakpia.show', $produk->id_produk) }}">
-
                                     <img src="{{ asset('storage/' . $produk->foto) }}" alt=""
                                         style="width:255px;height:251px;">
                                 </a>
                             </figure>
-                            <div class="product-text">
-                                <h6>{{ $produk->nama_produk }}</h6>
-                                <p>{{ currency_IDR($produk->harga) }}</p>
-                            </div>
+                            <a href="{{ route('bakpia.show', $produk->id_produk) }}">
+                                <div class="product-text">
+                                    {{ draw_rating($produk->review->sum('rating'), $produk->review->count()) }}
+                                    <h6>{{ $produk->nama_produk }}</h6>
+                                    <p>{{ currency_IDR($produk->harga) }}</p>
+                                </div>
+                            </a>
                         </div>
                     </div>
                 @endforeach

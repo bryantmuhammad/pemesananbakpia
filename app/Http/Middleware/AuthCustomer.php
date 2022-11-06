@@ -17,9 +17,11 @@ class AuthCustomer
     public function handle(Request $request, Closure $next)
     {
 
-        if (!auth()->check()) {
+        if (!auth()->check() || auth()->user()->role !== 3) {
+
             return redirect()->route('logincustomer');
         }
+
         return $next($request);
     }
 }

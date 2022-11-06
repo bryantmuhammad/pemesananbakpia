@@ -39,7 +39,8 @@
                                 <td class="quantity-col text-center">
                                     <div class="pro-qty mr-auto ml-auto">
                                         <input type="text" value="{{ $keranjang->jumlah }}"
-                                            data-keranjang="{{ $keranjang->id_keranjang }}" class="u-keranjang">
+                                            data-keranjang="{{ $keranjang->id_keranjang }}" max="50"
+                                            class="u-keranjang">
                                     </div>
                                 </td>
                                 <td class="total text-center">

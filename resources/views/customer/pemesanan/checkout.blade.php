@@ -33,7 +33,7 @@
                             </div>
                             <div class="col-lg-8">
                                 <input type="text" name="nama_penerima" id="nama_penerima"
-                                    value="{{ old('nama_penerima') }}">
+                                    value="{{ old('nama_penerima', $user->name) }}">
                             </div>
                         </div>
                         <div class="row">

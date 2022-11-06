@@ -10,6 +10,7 @@ use App\Models\Alamat;
 use App\Models\Pembayaran;
 use Illuminate\Support\Facades\DB;
 use App\Models\DetailPemesanan;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class PemesananController extends Controller
@@ -26,15 +27,6 @@ class PemesananController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -64,7 +56,8 @@ class PemesananController extends Controller
                     'status'                => 0,
                     'tanggal_diperlukan'    => $request->tanggal,
                     'tanggal_pemesanan'     => date('Y-m-d H:i:s'),
-                    'resi'                  => ''
+                    'resi'                  => '',
+                    'notif'                 => 0
                 ]);
 
                 Alamat::create([
@@ -92,13 +85,14 @@ class PemesananController extends Controller
                     DetailPemesanan::create([
                         'id_pemesanan'  => $orderId,
                         'id_produk'     => $keranjang->id_produk,
-                        'jumlah'        => $keranjang->jumlah
+                        'jumlah'        => $keranjang->jumlah,
                     ]);
                 }
 
                 Keranjang::where('id_user', auth()->user()->id_user)->delete();
             });
         } catch (\PDOException $e) {
+
             return response()->json([
                 'status'    => 400,
                 'message'   => 'Terjadi kesalahan silahkan coba beberapa saat lagi',
@@ -123,15 +117,23 @@ class PemesananController extends Controller
     {
         Gate::authorize('view', $pemesanan);
 
+        if ($pemesanan->notif == 0) {
+            $pemesanan->notif = 1;
+            $pemesanan->save();
+        }
+
         return view('customer.pemesanan.detail', [
-            'pemesanan' => $pemesanan->load(['alamat', 'pembayaran', 'detail_pemesanan.produk'])
+            'pemesanan'             => $pemesanan->load(['alamat', 'pembayaran']),
+            'detailpemesanans'      => DetailPemesanan::where(['id_pemesanan' => $pemesanan->id_pemesanan])->with(['produk', 'return_produk' => function ($q) {
+                return $q->where('status', '<', 2);
+            }])->get()
         ]);
     }
 
 
     public function checkout()
     {
-        $keranjangs = Keranjang::where('id_user', auth()->user()->id_user)->get();
+        $keranjangs = Keranjang::user()->get();
         $total = 0;
         $berat = 0;
         foreach ($keranjangs as $keranjang) {
@@ -139,9 +141,54 @@ class PemesananController extends Controller
             $berat += $keranjang->jumlah * $keranjang->produk->berat;
         }
         return view('customer.pemesanan.checkout', [
-            'keranjangs' => $keranjangs,
-            'total' => $total,
-            'berat' => $berat
+            'keranjangs'    => $keranjangs,
+            'total'         => $total,
+            'berat'         => $berat,
+            'user'          => auth()->user()
         ]);
+    }
+
+    public function notifikasi()
+    {
+        if (!auth()->check()) return response()->json(['status' => 200, 'data' => []], 200);
+        $notifikasi = Pemesanan::notification()->get();
+
+        return response()->json(['status' => 200, 'data' => $notifikasi], 200);
+    }
+
+    public function return_produk(DetailPemesanan $detailpemesanan)
+    {
+        $detailpemesanan = $detailpemesanan->load('produk', 'return_produk');
+        $jumlah = $detailpemesanan->jumlah;
+
+        foreach ($detailpemesanan->return_produk as $return_produk) {
+            $jumlah -= $return_produk->jumlah;
+        }
+
+        return view('customer.return.index', [
+            'detail_pemesanan' => $detailpemesanan,
+            'jumlah' => $jumlah
+        ]);
+    }
+
+    public function finish(Request $request, Pemesanan $pemesanan)
+    {
+        $pemesanan->update(['status' => 4]);
+
+        return response()->json([
+            'message'       => 'Pemesanan berhasil dikonfirmasi',
+            'status'        => 'success',
+            'status_code'   => 200
+        ], 200);
+    }
+
+    public function riwayat_pemesanan()
+    {
+        $data = [
+            'pemesanans' => Pemesanan::with('detail_pemesanan.produk')->where('id_user', auth()->user()->id_user)->get()
+        ];
+
+
+        return view('customer.pemesanan.riwayat', $data);
     }
 }

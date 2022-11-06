@@ -16,9 +16,10 @@
             <div class="isi" style="position:relative;">
 
                 <p style="text-align:center"><span style="font-family:Times New Roman,Times,serif">
-                        <font size="8">{{ env('NAMA_INSTANSI') }}</font>
+                        <font size="8">BAKPIA 716 ANNUR`</font>
                     </span></p>
-                <p style="text-align:center"><span style="font-size:15px">{{ env('ALAMAT_INSTANSI') }}</span></p>
+                <p style="text-align:center"><span style="font-size:15px">Jl. Purwodiningratan NG1/ no 716 DIY
+                        Yogyakarta</span></p>
             </div>
         </div>
 

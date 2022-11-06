@@ -65,7 +65,8 @@ class PemesananController extends Controller
     {
         try {
             Pemesanan::where('id_pemesanan', $request->idpemesanan)->update([
-                'status' => 2
+                'status' => 2,
+                'notif' => 0
             ]);
         } catch (Exception $e) {
             return response()->json([
@@ -86,7 +87,8 @@ class PemesananController extends Controller
     {
         Pemesanan::where('id_pemesanan', $pemesanan->id_pemesanan)->update([
             'resi' => $request->resi,
-            'status' => 3
+            'status' => 3,
+            'notif' => 0
         ]);
 
         return redirect('/admin/pemesanan/pembuatan')->with('success', 'Pesanan status bersahil diupdate');

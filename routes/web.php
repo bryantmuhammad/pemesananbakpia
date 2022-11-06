@@ -15,6 +15,9 @@ use App\Http\Controllers\Admin\PemesananController as AdminPemesanan;
 use App\Http\Controllers\OngkirController;
 use App\Http\Controllers\User\CheckoutController;
 use App\Http\Controllers\Admin\LaporanController;
+use App\Http\Controllers\User\ReviewController;
+use App\Http\Controllers\User\ReturnProdukController as UserReturn;
+use App\Http\Controllers\Admin\ReturnController as AdminReturn;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,7 +64,17 @@ Route::middleware(['authcustomer'])->prefix('pemesanan')->group(function () {
     Route::post('/simpan', [UserPemesanan::class, 'store']);
     Route::get('/customer', [UserPemesanan::class, 'index']);
     Route::get('/detail/{pemesanan}', [UserPemesanan::class, 'show']);
+    Route::get('/riwayatpesanan', [UserPemesanan::class, 'riwayat_pemesanan']);
+    Route::get('/return/{detailpemesanan}', [UserPemesanan::class, 'return_produk'])->name('pemesanan.return');
 });
+
+Route::middleware(['authcustomer'])->prefix('returnproduk')->group(function () {
+    Route::post('simpan', [UserReturn::class, 'store'])->name('return.user.store');
+    Route::get('/index', [UserReturn::class, 'index'])->name('return.index');
+});
+
+Route::get('/pemesanan/notifikasi', [UserPemesanan::class, 'notifikasi']);
+Route::put('/pemesanan/selesai/{pemesanan}', [UserPemesanan::class, 'finish']);
 
 
 Route::prefix('ongkir')->group(function () {
@@ -81,6 +94,16 @@ Route::middleware(['can:transaksi', 'auth'])->prefix('admin/pemesanan')->group(f
     Route::get('/dikirim', [AdminPemesanan::class, 'dikirim'])->name('pemesanan.dikirim');
 });
 
+Route::middleware(['can:transaksi', 'auth'])->prefix('admin/return')->group(function () {
+    Route::get('/returnmasuk', [AdminReturn::class, 'return_masuk'])->name('return.masuk');
+    Route::get('/returnkirim', [AdminReturn::class, 'return_kirim'])->name('return.kirim');
+    Route::get('/selesai', [AdminReturn::class, 'return_selesai'])->name('return.selesai');
+    Route::get('/alamatcustomer/{pemesanan}', [AdminReturn::class, 'alamat_customer']);
+    Route::post('/returnkirim', [AdminReturn::class, 'proses_kirim'])->name('return.store');
+    Route::delete('/hapusreturn/{returnproduk}', [AdminReturn::class, 'destroy'])->name('return.destroy');
+    Route::put('/updatereturn/{returnproduk}', [AdminReturn::class, 'update'])->name('return.update');
+});
+
 
 Route::middleware(['auth'])->prefix('admin/laporan')->group(function () {
     Route::any('/pemesanan', [LaporanController::class, 'pemesanan'])->name('laporan.pemesanan');
@@ -88,3 +111,4 @@ Route::middleware(['auth'])->prefix('admin/laporan')->group(function () {
 });
 
 Route::post('/checkout/pay', [CheckoutController::class, 'pay']);
+Route::post('/review/store', [ReviewController::class, 'store'])->name('review.store');

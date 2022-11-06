@@ -19,7 +19,7 @@ class ProdukController extends Controller
     {
         return view('customer.produk.index', [
             'kategoris' => Kategori::all(),
-            'produks' => Produk::all()->load('kategori')
+            'produks' => Produk::all()->load('kategori', 'review')
         ]);
     }
 
@@ -32,16 +32,14 @@ class ProdukController extends Controller
      */
     public function show(Produk $bakpium)
     {
-
         if (session()->has('success')) {
             Alert::toast(session('success'), 'success')->position('bottom-end');
         }
 
         $idkategori = $bakpium->kategori->id_kategori;
-
         return view('customer.produk.show', [
-            'produk' => $bakpium,
-            'produks' => Produk::where('id_kategori', $idkategori)->where('id_produk', '!=', $bakpium->id_produk)->get()
+            'produk'    => $bakpium->load('review.user'),
+            'produks'   => Produk::with('review')->where('id_kategori', $idkategori)->where('id_produk', '!=', $bakpium->id_produk)->get()
         ]);
     }
 
@@ -50,7 +48,7 @@ class ProdukController extends Controller
     {
         return view('customer.index', [
             'kategoris' => Kategori::all(),
-            'produks' => Produk::with('kategori')->latest()->take(8)->get()
+            'produks'   => Produk::with('kategori', 'review')->latest()->take(8)->get()
         ]);
     }
 }

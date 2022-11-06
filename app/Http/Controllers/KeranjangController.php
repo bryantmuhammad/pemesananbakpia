@@ -2,19 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\KeranjangRequest;
 use Illuminate\Http\Request;
 use App\Models\Keranjang;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Models\DetailPemesanan;
+use App\Services\KeranjangService;
 
 class KeranjangController extends Controller
 {
+    private KeranjangService $keranjangService;
+
+    public function __construct(KeranjangService $keranjangService)
+    {
+        $this->keranjangService = $keranjangService;
+    }
 
     public function index()
     {
-        $keranjangs = Keranjang::where('id_user', auth()->user()->id_user)->get();
-        $total = 0;
+        $keranjangs = Keranjang::with('produk')->user()->get();
+        $total      = 0;
         foreach ($keranjangs as $keranjang) {
             $total += $keranjang->produk->harga * $keranjang->jumlah;
         }
@@ -24,25 +32,16 @@ class KeranjangController extends Controller
         }
 
         return view('customer.keranjang.index', [
-            'keranjangs' => $keranjangs,
-            'total' => $total
+            'keranjangs'    => $keranjangs,
+            'total'         => $total
         ]);
     }
 
-    public function tambah(Request $request)
+    public function tambah(KeranjangRequest $request)
     {
-        $keranjang      = Keranjang::where('id_user', auth()->user()->id_user)->where('id_produk', $request->id_produk)->first();
-        $validatedData  = $request->validate([
-            'jumlah'    => 'required|min:1',
-            'id_produk' => 'required',
-        ]);
-        if ($keranjang) {
-            $validatedData['jumlah'] += $keranjang->jumlah;
-            Keranjang::where('id_keranjang', $keranjang->id_keranjang)->update($validatedData);
-        } else {
-            $validatedData['id_user'] = auth()->user()->id_user;
-            Keranjang::create($validatedData);
-        }
+        $keranjang      = Keranjang::user()->where('id_produk', $request->id_produk)->first();
+        $validatedData  = $request->validated();
+        $this->keranjangService->tambah($validatedData, $keranjang);
 
         return redirect()->back()->with('success', 'Produk ditambahkan kedalam keranjang');
     }
@@ -62,18 +61,10 @@ class KeranjangController extends Controller
         return redirect('/keranjang/produk')->with('success', 'Produk berhasil dihapus dari keranjang');
     }
 
-    public function update(Request $request, Keranjang $keranjang)
+    public function update(KeranjangRequest $request, Keranjang $keranjang)
     {
-        Keranjang::where('id_keranjang', $keranjang->id_keranjang)->update([
-            'jumlah' =>  $request->jumlah
-        ]);
-        $keranjangs     = Keranjang::with('produk')->where('id_user', auth()->user()->id_user)->get();
-        $grandTotal     = 0;
-        $subTotal       = 0;
-        foreach ($keranjangs as $key => $value) {
-            if ($value->id_keranjang == $keranjang->id_keranjang) $subTotal = $value->jumlah * $value->produk->harga;
-            $grandTotal += $value->jumlah * $value->produk->harga;
-        }
+
+        [$grandTotal, $subTotal] = $this->keranjangService->getTotal($request, $keranjang);
 
         return response()->json([
             'grandtotal'    => currency_IDR($grandTotal),

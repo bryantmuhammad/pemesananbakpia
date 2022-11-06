@@ -55,6 +55,9 @@
                                     @if ($pemesanan->status == 3)
                                         <button class="btn btn-success">Sedang Dikirim</button>
                                     @endif
+                                    @if ($pemesanan->status == 4)
+                                        <button class="btn btn-success">Pesanan Diterima</button>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

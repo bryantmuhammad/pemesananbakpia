@@ -3,7 +3,8 @@
     <!-- Hero Slider Begin -->
     <section class="hero-slider">
         <div class="hero-items owl-carousel">
-            <div class="single-slider-item set-bg" data-setbg="/customer/img/slider-1.jpg">
+            <div class="single-slider-item set-bg" data-setbg="/customer/img/bgbakpia.jpg"
+                style="background-position: 50% 50%;">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12">
@@ -79,6 +80,7 @@
                                 </a>
                             </figure>
                             <div class="product-text">
+                                {{ draw_rating($produk->review->sum('rating'), $produk->review->count()) }}
                                 <h6>{{ $produk->nama_produk }}</h6>
                                 <p>{{ currency_IDR($produk->harga) }}</p>
                             </div>
