@@ -92,6 +92,7 @@ Route::middleware(['can:transaksi', 'auth'])->prefix('admin/pemesanan')->group(f
     Route::put('/updatepembuatan/{pemesanan}', [AdminPemesanan::class, 'update_pembuatan']);
     Route::put('/kirimresi/{pemesanan}', [AdminPemesanan::class, 'kirim_resi']);
     Route::get('/dikirim', [AdminPemesanan::class, 'dikirim'])->name('pemesanan.dikirim');
+    Route::get('/print/{pemesanan}', [AdminPemesanan::class, 'print'])->name('pemesanan.print');
 });
 
 Route::middleware(['can:transaksi', 'auth'])->prefix('admin/return')->group(function () {

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Produk;
 use App\Models\Kategori;
 use Illuminate\Support\Facades\Storage;
+use phpDocumentor\Reflection\DocBlock\Tags\Var_;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class ProdukController extends Controller
@@ -48,18 +49,22 @@ class ProdukController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'nama_produk'   => 'required',
-            'harga'         => 'required|numeric',
-            'berat'         => 'required|numeric',
-            'id_kategori'   => 'required|numeric',
-            'keterangan'    => 'required',
-            'foto'          => 'image|file|max:10240'
-        ]);
+        try {
+            $validatedData = $request->validate([
+                'nama_produk'   => 'required',
+                'harga'         => 'required|numeric',
+                'berat'         => 'required|numeric',
+                'id_kategori'   => 'required|numeric',
+                'keterangan'    => 'required',
+                'foto'          => 'image|file|max:10240'
+            ]);
 
-        $validatedData['foto'] = $request->file('foto')->store('foto-produk');
+            $validatedData['foto'] = $request->file('foto')->store('foto-produk');
 
-        Produk::create($validatedData);
+            Produk::create($validatedData);
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
         return redirect('/admin/produk')->with('success', 'Produk berhasil ditambahkan');
     }
 

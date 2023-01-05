@@ -16,7 +16,7 @@ class CreatePembayaransTable extends Migration
         Schema::create('pembayarans', function (Blueprint $table) {
             $table->bigIncrements('id_pembayaran');
             $table->string('id_pemesanan', 15);
-            $table->decimal('total_bayar');
+            $table->double('total_bayar');
             $table->dateTime('tanggal_pembayaran');
             $table->string('bank_tujuan', 10);
             $table->string('va_number', 30);

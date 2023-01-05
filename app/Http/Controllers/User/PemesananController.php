@@ -92,6 +92,7 @@ class PemesananController extends Controller
                 Keranjang::where('id_user', auth()->user()->id_user)->delete();
             });
         } catch (\PDOException $e) {
+            dd($e->getMessage());
 
             return response()->json([
                 'status'    => 400,

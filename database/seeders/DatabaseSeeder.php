@@ -44,10 +44,10 @@ class DatabaseSeeder extends Seeder
             'Bakpia isi 30'
         ];
 
-        foreach ($kategoris as $kategori) {
-            Kategori::factory()->has(Produk::factory()->count(5))->create([
-                'nama_kategori' => $kategori
-            ]);
-        }
+        // foreach ($kategoris as $kategori) {
+        //     Kategori::factory()->has(Produk::factory()->count(5))->create([
+        //         'nama_kategori' => $kategori
+        //     ]);
+        // }
     }
 }

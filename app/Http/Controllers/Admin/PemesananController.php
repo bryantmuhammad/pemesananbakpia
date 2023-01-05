@@ -7,6 +7,8 @@ use App\Models\Pemesanan;
 use Exception;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
+use Midtrans\Notification;
+use Midtrans\Config;
 
 class PemesananController extends Controller
 {
@@ -26,6 +28,15 @@ class PemesananController extends Controller
         ]);
     }
 
+
+    public function print(Pemesanan $pemesanan)
+    {
+        $detailpemesanan = $pemesanan->load(['alamat', 'pembayaran', 'detail_pemesanan.produk']);
+
+        return view('admin.pemesanan.print', [
+            'pemesanan' => $detailpemesanan
+        ]);
+    }
 
     public function belum_bayar()
     {
@@ -99,5 +110,17 @@ class PemesananController extends Controller
         return view('admin.pemesanan.dikirim', [
             'pemesanans' => Pemesanan::where('status', 3)->latest()->get()
         ]);
+    }
+
+    public function payment_handler()
+    {
+
+        Config::$serverKey  = env('MIDTRANS_SERVER_KEY');
+        $mid                = new Notification();
+        $status             = $mid->transaction_status;
+        $orderId            = $mid->order_id;
+
+        //Verif signature key
+        $penjualan = Pemesanan::where('id_pemesanan', $orderId)->update(['status' => 1]);
     }
 }

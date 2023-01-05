@@ -104,10 +104,10 @@ class CheckoutService
 
         // Optional
         $customer_details = array(
-            'first_name'    => auth()->user()->name,
-            'email'         => auth()->user()->email,
-            'billing_address'  => $customerAddres,
-            'shipping_address' => $customerAddres
+            'first_name'        => auth()->user()->name,
+            'email'             => auth()->user()->email,
+            'billing_address'   => $customerAddres,
+            'shipping_address'  => $customerAddres
         );
 
         // Fill SNAP API parameter
@@ -127,6 +127,8 @@ class CheckoutService
                 'status'    => 200
             ];
         } catch (\Exception $e) {
+            dd($e->getMessage());
+
             return [
                 'token'     => '',
                 'status'    => 500
